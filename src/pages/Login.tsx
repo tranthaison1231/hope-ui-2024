@@ -1,12 +1,59 @@
-import Logo from "./Logo";
-import Facebook from "../assets/Facebook.png";
-import Gmail from "../assets/Gmail.png";
-import Instagram from "../assets/Instagram.png";
-import Linkedin from "../assets/Linkedin.png";
-import Frame from "../assets/Frame.png";
+import Logo from "../components/Logo";
+import Facebook from "../assets/facebook.png";
+import Gmail from "../assets/gmail.png";
+import Instagram from "../assets/instagram.png";
+import Linkedin from "../assets/linkedin.png";
+import Frame from "../assets/frame.png";
+import Input from "../components/Input";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type Inputs = {
+  email: string;
+  password: string;
+};
+
+const loginSchema = z.object({
+  email: z
+    .string({
+      message: "Invalid email address",
+    })
+    .email({
+      message: "Invalid email address",
+    }),
+  password: z
+    .string({
+      message: "Password must be at least 10 characters",
+    })
+    .min(10),
+});
+
 export default function Login() {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    reValidateMode: "onBlur",
+    resolver: zodResolver(loginSchema),
+  });
+
+  const handleLogin: SubmitHandler<Inputs> = (data) => {
+    if (data.email === "admin@gmail.com" && data.password === "admin12345") {
+      navigate("/");
+    }
+  };
+
   return (
-    <section className="md:py-16 bg-no-repeat bg-left-top" style={{ backgroundImage: `url(${Frame})` }}>
+    <section
+      className="md:py-16 bg-no-repeat bg-left-top"
+      style={{ backgroundImage: `url(${Frame})` }}
+    >
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 rounded-lg shadow-none md:w-1/2 2xl:w-1/3">
         <a
           href="#/"
@@ -23,7 +70,7 @@ export default function Login() {
           </h2>
           <p className="text-[#8A92A6]">Sign in to stay connected.</p>
         </div>
-        <form className="space-y-6" action="#">
+        <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
           <div>
             <label
               htmlFor="email"
@@ -31,14 +78,16 @@ export default function Login() {
             >
               Email
             </label>
-            <input
+            <Input
               type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 border border-[#3A57E8] text-[#8A92A6] text-sm rounded-lg block w-full p-2.5  focus:outline-none focus:ring-1 focus:ring-[#3A57E8] "
               placeholder="abc@gmail.com"
-              required
+              {...register("email", {
+                required: true,
+              })}
             />
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
+            )}
           </div>
           <div>
             <label
@@ -47,26 +96,26 @@ export default function Login() {
             >
               Password
             </label>
-            <input
+            <Input
               type="password"
-              name="password"
-              id="password"
               placeholder="••••••••"
-              className="bg-gray-50 border border-[#3A57E8] text-[#8A92A6] text-sm rounded-lg block w-full p-2.5  focus:outline-none focus:ring-1 focus:ring-[#3A57E8] "
-              required
+              {...register("password")}
             />
+            {errors.email && (
+              <p className="text-red-500">{errors.password?.message}</p>
+            )}
           </div>
 
           <div className="flex flex-row ">
             <div className="flex items-center ">
-              <input
-                id="remember"
-                aria-describedby="remember"
-                name="remember"
-                type="checkbox"
-                className="w-5 h-5 border-gray-300 rounded bg-gray-50 accent-[#3A57E8] "
-                required
-              />
+              {/* <input */}
+              {/*   id="remember" */}
+              {/*   aria-describedby="remember" */}
+              {/*   name="remember" */}
+              {/*   type="checkbox" */}
+              {/*   className="w-5 h-5 border-gray-300 rounded bg-gray-50 accent-[#3A57E8] " */}
+              {/*   required */}
+              {/* /> */}
             </div>
             <div className="ms-3 text-sm">
               <label
@@ -84,12 +133,7 @@ export default function Login() {
             </a>
           </div>
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="px-16 py-3 text-base font-base text-center rounded  text-white bg-[#3A57E8]  hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto  "
-            >
-              Sign in
-            </button>
+            <Button type="submit"> Sign in</Button>
           </div>
         </form>
         <div className="space-y-4 py-4">
@@ -120,9 +164,12 @@ export default function Login() {
           </div>
           <div className="text-base font-base text-[#232D42] flex justify-between ">
             Dont have an account?
-            <a className="text-blue-600 hover:underline dark:text-blue-500 ml-1">
+            <Link
+              to="/sign-up"
+              className="text-blue-600 hover:underline dark:text-blue-500 ml-1"
+            >
               Click here to sign up.
-            </a>
+            </Link>
           </div>
         </div>
       </div>
