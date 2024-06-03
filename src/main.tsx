@@ -7,11 +7,29 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import { Toaster } from "sonner";
+import Users from "./pages/Users";
+import MenuStyle from "./pages/MenuStyle";
+import PrivateLayout from "./layouts/PrivateLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <PrivateLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/users",
+        element: <Users />,
+      },
+      {
+        path: "/menu-styles",
+        element: <MenuStyle />,
+      },
+    ],
   },
   {
     path: "/sign-up",
@@ -33,6 +51,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    <Toaster richColors position="top-right" />
     <RouterProvider router={router} />
   </React.StrictMode>,
 );

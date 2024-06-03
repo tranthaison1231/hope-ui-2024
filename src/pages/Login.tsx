@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { toast } from "sonner";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -41,11 +42,18 @@ export default function Login() {
   } = useForm<Inputs>({
     reValidateMode: "onBlur",
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "admin123@gmail.com",
+      password: "enouvo123",
+    },
   });
 
   const handleLogin: SubmitHandler<Inputs> = (data) => {
     if (data.email === "admin@gmail.com" && data.password === "admin12345") {
+      localStorage.setItem("token", "124125125125125125");
       navigate("/");
+    } else {
+      toast.error("Invalid email or password");
     }
   };
 
@@ -81,9 +89,7 @@ export default function Login() {
             <Input
               type="email"
               placeholder="abc@gmail.com"
-              {...register("email", {
-                required: true,
-              })}
+              {...register("email")}
             />
             {errors.email && (
               <p className="text-red-500">{errors.email.message}</p>
@@ -101,7 +107,7 @@ export default function Login() {
               placeholder="••••••••"
               {...register("password")}
             />
-            {errors.email && (
+            {errors.password && (
               <p className="text-red-500">{errors.password?.message}</p>
             )}
           </div>
