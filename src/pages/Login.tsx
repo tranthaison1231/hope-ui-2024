@@ -10,9 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
 import { toast } from "sonner";
-
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -38,8 +36,8 @@ export default function Login() {
     mode: 'onBlur',   
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "admin123@gmail.com",
-      password: "enouvo123",
+      email: "admin@gmail.com",
+      password: "admin12345",
     },
   });
 

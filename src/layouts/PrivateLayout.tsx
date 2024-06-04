@@ -8,11 +8,11 @@ export default function PrivateLayout() {
   if (!token) return <Navigate to="/login" />;
 
   return (
-    <div>
+    <div >
       <Header />
       <div className="flex">
         <Navbar />
-        <div className="bg-gray-400 w-full">
+        <div className="w-full bg-gray-300">
           <Outlet />
         </div>
       </div>
