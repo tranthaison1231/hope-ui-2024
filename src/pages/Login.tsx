@@ -1,14 +1,16 @@
+
+import facebook from "../assets/facebook.png";
+import gmail from "../assets/gmail.png";
+import instagram from "../assets/instagram.png";
+import linkedin from "../assets/linkedin.png";
+import background from "../assets/background-log-in.png";
 import Logo from "../components/Logo";
-import Facebook from "../assets/facebook.png";
-import Gmail from "../assets/gmail.png";
-import Instagram from "../assets/instagram.png";
-import Linkedin from "../assets/linkedin.png";
-import Frame from "../assets/frame.png";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
 import { toast } from "sonner";
 
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -18,29 +20,22 @@ type Inputs = {
   password: string;
 };
 
-const loginSchema = z.object({
-  email: z
-    .string({
-      message: "Invalid email address",
-    })
-    .email({
-      message: "Invalid email address",
-    }),
-  password: z
-    .string({
-      message: "Password must be at least 10 characters",
-    })
-    .min(10),
-});
-
 export default function Login() {
+  const loginSchema = z.object({
+    email: z
+      .string()
+      .email({ message: "Please enter a valid email address" }),
+    password: z
+      .string()
+      .min(10, "Password must be at least 10 characters long"),
+  });
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
-    reValidateMode: "onBlur",
+  } = useForm<Inputs>({ 
+    mode: 'onBlur',   
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "admin123@gmail.com",
@@ -48,7 +43,8 @@ export default function Login() {
     },
   });
 
-  const handleLogin: SubmitHandler<Inputs> = (data) => {
+  const handleLogin: SubmitHandler<Inputs> = (data: Inputs) => {
+    console.log(data);
     if (data.email === "admin@gmail.com" && data.password === "admin12345") {
       localStorage.setItem("token", "124125125125125125");
       navigate("/");
@@ -60,7 +56,7 @@ export default function Login() {
   return (
     <section
       className="md:py-16 bg-no-repeat bg-left-top"
-      style={{ backgroundImage: `url(${Frame})` }}
+      style={{ backgroundImage: `url(${background})` }}
     >
       <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 rounded-lg shadow-none md:w-1/2 2xl:w-1/3">
         <a
@@ -91,9 +87,9 @@ export default function Login() {
               placeholder="abc@gmail.com"
               {...register("email")}
             />
-            {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
-            )}
+            {errors.email && 
+              <span className="text-red-500">{errors.email.message}</span>
+            }
           </div>
           <div>
             <label
@@ -104,7 +100,7 @@ export default function Login() {
             </label>
             <Input
               type="password"
-              placeholder="••••••••"
+              placeholder="Enter your password"
               {...register("password")}
             />
             {errors.password && (
@@ -152,19 +148,19 @@ export default function Login() {
 
           <div className="flex justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
             <a href="#">
-              <img src={Gmail} alt="Gmail" />
+              <img src={gmail} alt="Gmail" />
               <span className="sr-only">Gmail</span>
             </a>
             <a href="#">
-              <img src={Facebook} alt="Facebook" />
+              <img src={facebook} alt="Facebook" />
               <span className="sr-only">Facebook</span>
             </a>
             <a href="#">
-              <img src={Instagram} alt="Instagram" />
+              <img src={instagram} alt="Instagram" />
               <span className="sr-only">Instagram</span>
             </a>
             <a href="#">
-              <img src={Linkedin} alt="Linkedin" />
+              <img src={linkedin} alt="Linkedin" />
               <span className="sr-only">Linkedin</span>
             </a>
           </div>
