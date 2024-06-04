@@ -10,6 +10,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
+import { toast } from "sonner";
+
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -34,13 +37,19 @@ export default function Login() {
   } = useForm<Inputs>({ 
     mode: 'onBlur',   
     resolver: zodResolver(loginSchema),
-    criteriaMode: "all",
+    defaultValues: {
+      email: "admin123@gmail.com",
+      password: "enouvo123",
+    },
   });
 
   const handleLogin: SubmitHandler<Inputs> = (data: Inputs) => {
     console.log(data);
     if (data.email === "admin@gmail.com" && data.password === "admin12345") {
+      localStorage.setItem("token", "124125125125125125");
       navigate("/");
+    } else {
+      toast.error("Invalid email or password");
     }
   };
 
@@ -75,10 +84,8 @@ export default function Login() {
             </label>
             <Input
               type="email"
-              placeholder="Enter your email"
-              {...register("email", {
-                required: true,
-              })}
+              placeholder="abc@gmail.com"
+              {...register("email")}
             />
             {errors.email && 
               <span className="text-red-500">{errors.email.message}</span>
@@ -96,9 +103,9 @@ export default function Login() {
               placeholder="Enter your password"
               {...register("password")}
             />
-            {errors.password && 
-              <span className="text-red-500">{errors.password?.message}</span>
-            }
+            {errors.password && (
+              <p className="text-red-500">{errors.password?.message}</p>
+            )}
           </div>
 
           <div className="flex flex-row ">

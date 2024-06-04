@@ -2,6 +2,7 @@ import React, { forwardRef } from "react";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
+
 function Input({ ...props }: InputProps, ref: React.Ref<HTMLInputElement>) {
   return (
     <input
