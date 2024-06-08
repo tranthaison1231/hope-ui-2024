@@ -1,8 +1,8 @@
 import Item from "../components/Item";
 import Button from "../components/Button";
-import background from "../assets/jumbotron-background.png";
+import background from "../assets/images/jumbotron-background.png";
 import Setting from "../components/Setting";
-import logo from "../assets/logo.svg";
+import logo from "../assets/svgs/logo.svg";
 const LIST_ITEMS = [
   {
     id: 1,
@@ -90,7 +90,7 @@ export default function Home() {
                 <td className="py-3 font-semibold text-sm text-right">
                   {LIST_ITEMS.reduce(
                     (acc, item) => acc + item.quantity * item.price,
-                    0
+                    0,
                   )}
                 </td>
               </tr>
@@ -114,7 +114,9 @@ export default function Home() {
           <Button>Print</Button>
         </div>
       </div>
-      <div className="absolute top-56 right-0 z-20"><Setting/></div>
+      <div className="absolute top-56 right-0 z-20">
+        <Setting />
+      </div>
     </div>
   );
 }

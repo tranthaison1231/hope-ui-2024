@@ -1,9 +1,8 @@
-
-import facebook from "../assets/facebook.png";
-import gmail from "../assets/gmail.png";
-import instagram from "../assets/instagram.png";
-import linkedin from "../assets/linkedin.png";
-import background from "../assets/background-log-in.png";
+import facebook from "../assets/images/facebook.png";
+import gmail from "../assets/images/gmail.png";
+import instagram from "../assets/images/instagram.png";
+import linkedin from "../assets/images/linkedin.png";
+import background from "../assets/images/background-log-in.png";
 import Logo from "../components/Logo";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,9 +19,7 @@ type Inputs = {
 
 export default function Login() {
   const loginSchema = z.object({
-    email: z
-      .string()
-      .email({ message: "Please enter a valid email address" }),
+    email: z.string().email({ message: "Please enter a valid email address" }),
     password: z
       .string()
       .min(10, "Password must be at least 10 characters long"),
@@ -32,8 +29,8 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({ 
-    mode: 'onBlur',   
+  } = useForm<Inputs>({
+    mode: "onBlur",
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "admin@gmail.com",
@@ -85,9 +82,9 @@ export default function Login() {
               placeholder="abc@gmail.com"
               {...register("email")}
             />
-            {errors.email && 
+            {errors.email && (
               <span className="text-red-500">{errors.email.message}</span>
-            }
+            )}
           </div>
           <div>
             <label

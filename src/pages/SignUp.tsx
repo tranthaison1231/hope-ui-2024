@@ -1,9 +1,9 @@
-import background from "../assets/background-sign-up.png";
+import background from "../assets/images/background-sign-up.png";
 import Logo from "../components/Logo";
-import gmail from "../assets/gmail.png";
-import facebook from "../assets/facebook.png";
-import instagram from "../assets/instagram.png";
-import linkedin from "../assets/linkedin.png";
+import gmail from "../assets/images/gmail.png";
+import facebook from "../assets/images/facebook.png";
+import instagram from "../assets/images/instagram.png";
+import linkedin from "../assets/images/linkedin.png";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
@@ -22,7 +22,7 @@ type Inputs = {
 
 export default function SignUp() {
   const phoneRegex = new RegExp(
-    /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+    /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
   );
   const signUpSchema = z
     .object({
@@ -48,7 +48,7 @@ export default function SignUp() {
       {
         message: "Passwords must match!",
         path: ["confirmPassword"],
-      }
+      },
     );
   const navigate = useNavigate();
   const {
