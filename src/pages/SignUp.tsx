@@ -5,10 +5,66 @@ import facebook from "../assets/facebook.png";
 import instagram from "../assets/instagram.png";
 import linkedin from "../assets/linkedin.png";
 import Input from "../components/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+type Inputs = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: number;
+  password: string;
+  confirmPassword: string;
+};
 
 export default function SignUp() {
+  const phoneRegex = new RegExp(
+    /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  );
+  const signUpSchema = z
+    .object({
+      firstName: z
+        .string()
+        .min(3, "First Name must be at least 3 characters long"),
+      lastName: z
+        .string()
+        .min(3, "Last Name must be at least 3 characters long"),
+      email: z
+        .string()
+        .email({ message: "Please enter a valid email address" }),
+      phone: z.string().regex(phoneRegex, "Invalid Number!"),
+      password: z
+        .string()
+        .min(10, "Passwords must be at least 10 characters long"),
+      confirmPassword: z.string(),
+    })
+    .refine(
+      (values) => {
+        return values.password === values.confirmPassword;
+      },
+      {
+        message: "Passwords must match!",
+        path: ["confirmPassword"],
+      }
+    );
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    mode: "onBlur",
+    resolver: zodResolver(signUpSchema),
+  });
+
+  const handleSignUp: SubmitHandler<Inputs> = (data: Inputs) => {
+    console.log(data);
+    navigate("/Login");
+  };
+
   return (
     <section
       className="md:py-16 bg-no-repeat bg-right-top"
@@ -28,9 +84,9 @@ export default function SignUp() {
           </h2>
           <p className="text-[#8A92A6]">Create your Hope UI account</p>
         </div>
-        <form className="space-y-6" action="#">
+        <form className="space-y-6" onSubmit={handleSubmit(handleSignUp)}>
           <div className=" grid sm:grid-cols-2 gap-4">
-            <div className="">
+            <div>
               <label
                 htmlFor="First Name"
                 className="block mb-2 text-sm text-[#8A92A6]"
@@ -39,11 +95,12 @@ export default function SignUp() {
               </label>
               <Input
                 type="First Name"
-                name="First Name"
-                id="First Name"
-                placeholder=""
-                required
+                placeholder="First Name"
+                {...register("firstName", { required: true })}
               />
+              {errors.firstName && (
+                <p className="text-red-500">{errors.firstName.message}</p>
+              )}
             </div>
 
             <div>
@@ -55,59 +112,61 @@ export default function SignUp() {
               </label>
               <Input
                 type="Last Name"
-                name="Last Name"
-                id="Last Name"
-                placeholder=""
-                required
+                placeholder="Last Name"
+                {...register("lastName", { required: true })}
               />
+              {errors.lastName && (
+                <p className="text-red-500">{errors.lastName.message}</p>
+              )}
             </div>
 
-            <div className="">
+            <div>
               <label
-                htmlFor="First Name"
+                htmlFor="Email"
                 className="block mb-2 text-sm text-[#8A92A6]"
               >
                 Email
               </label>
               <Input
                 type="Email"
-                name="Email"
-                id="Email"
-                placeholder=""
-                required
+                placeholder="Your Email"
+                {...register("email", { required: true })}
               />
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
+              )}
             </div>
 
             <div>
               <label
-                htmlFor="Last Name"
+                htmlFor="Phone Number"
                 className="block mb-2 text-sm text-[#8A92A6]"
               >
                 Phone Number
               </label>
               <Input
                 type="Phone Number"
-                name="Phone Number"
-                id="Phone Number"
-                placeholder=""
-                required
+                {...register("phone", { required: true })}
               />
+              {errors.phone && (
+                <p className="text-red-500">{errors.phone.message}</p>
+              )}
             </div>
 
-            <div className="">
+            <div>
               <label
-                htmlFor="First Name"
+                htmlFor="Password"
                 className="block mb-2 text-sm text-[#8A92A6]"
               >
                 Password
               </label>
               <Input
                 type="PassWord"
-                name="PassWord"
-                id="PassWord"
-                placeholder=""
-                required
+                {...register("password", { required: true })}
               />
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
             </div>
 
             <div>
@@ -119,11 +178,11 @@ export default function SignUp() {
               </label>
               <Input
                 type="Password"
-                name="Password"
-                id="Password"
-                placeholder=""
-                required
+                {...register("confirmPassword", { required: true })}
               />
+              {errors.confirmPassword && (
+                <p className="text-red-500">{errors.confirmPassword.message}</p>
+              )}
             </div>
           </div>
           <div className="flex flex-row justify-center ">
