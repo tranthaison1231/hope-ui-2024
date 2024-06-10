@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <div className="w-full relative overflow-x-auto">
       <img src={background} alt="jumbotron" className="relative z-0" />
-      <div className=" bg-white mx-6 -mt-4 relative z-10 rounded-md p-4">
+      <div className=" bg-white mx-6 -mt-6 relative z-10 rounded-md p-4">
         <dl className="flex justify-between items-center py-2">
           <dt className="text-2xl font-bold">Invoice #215462</dt>
           <dd className="text-xs font-medium"> DUE DATE: Aug 19,2002</dd>
@@ -52,17 +52,17 @@ export default function Home() {
         </p>
         <table className="w-full text-xs text-left rtl:text-right text-gray-800">
           <thead className="text-xs bg-white border-b-2">
-            <tr>
-              <th scope="col" className="py-3 text-start font-normal">
+            <tr className="children:font-normal py-3">
+              <th scope="col" className=" text-start ">
                 Product name
               </th>
-              <th scope="col" className="py-3 text-start font-normal">
+              <th scope="col" className=" text-start ">
                 Quantity
               </th>
-              <th scope="col" className="py-3 text-start font-normal">
+              <th scope="col" className=" text-start ">
                 Price
               </th>
-              <th scope="col" className="py-3 text-right font-normal">
+              <th scope="col" className=" text-right ">
                 Totals
               </th>
             </tr>
@@ -80,14 +80,14 @@ export default function Home() {
           </tbody>
           {LIST_ITEMS.length > 0 && (
             <tfoot className="border-t-2">
-              <tr>
+              <tr className="children:py-3 children:font-semibold children:text-sm">
                 <td
                   colSpan={3}
-                  className="py-3 font-semibold text-sm text-left"
+                  className=" text-left"
                 >
                   Net Amount
                 </td>
-                <td className="py-3 font-semibold text-sm text-right">
+                <td className=" text-right">
                   {LIST_ITEMS.reduce(
                     (acc, item) => acc + item.quantity * item.price,
                     0,
