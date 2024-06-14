@@ -3,29 +3,40 @@ import notification from "../assets/images/notification.png";
 import avatar from "../assets/images/avatar.png";
 import logo from "../assets/images/logo.png";
 import imguk from "../assets/images/imguk.png";
+import ArrowLeft from "../assets/svgs/arrow-left.svg?react";
+import { cn } from "../utils/cn";
 
-export default function Header() {
+interface HeaderProps {
+  isToggle: boolean;
+  onToggle: () => void;
+}
+
+export default function Header({ isToggle, onToggle }: HeaderProps) {
   return (
-    <section className="flex">
-      <div className="w-[260px] relative flex items-center justify-center gap-4">
+    <section className="flex fixed bg-white z-9999 w-full">
+      <div
+        className={cn(
+          "w-[260px] relative flex items-center justify-center gap-4",
+          {
+            "w-32": isToggle,
+          },
+        )}
+      >
         <img src={logo} alt="logo" />
-        <h2 className="text-3xl"> Hope UI</h2>
-        <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-8 h-8 cursor-pointer bg-[#3A57E8] rounded-full flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-arrow-left text-white"
-          >
-            <path d="m12 19-7-7 7-7" />
-            <path d="M19 12H5" />
-          </svg>
+        {!isToggle ? (
+          <h2 className="text-3xl font-bold"> Hope UI</h2>
+        ) : undefined}
+
+        <div
+          onClick={onToggle}
+          className={cn(
+            "absolute -right-3 top-1/2 -translate-y-1/2 w-8 h-8 cursor-pointer bg-[#3A57E8] rounded-full flex items-center justify-center",
+            {
+              "rotate-180": isToggle,
+            },
+          )}
+        >
+          <ArrowLeft />
         </div>
       </div>
       <div className="flex justify-between flex-1 px- py-4">

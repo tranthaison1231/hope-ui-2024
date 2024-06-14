@@ -61,9 +61,9 @@ const PROJECTS_LIST = [
 ];
 export default function Users() {
   return (
-    <div className="w-full relative overflow-x-auto">
-      <img src={background} alt="jumbotron" className="relative z-0" />
-      <div className="lg:mx-6 sm:mx-2 -mt-6 relative z-10">
+    <div className="w-full overflow-x-auto">
+      <img src={background} alt="jumbotron" />
+      <div className="lg:mx-6 sm:mx-2 -mt-6 ">
         <div className=" bg-white relative overflow-hidden rounded-lg px-4 py-2 shadow-lg">
           <div className="flex flex-col items-center justify-between md:flex-row md:space-y-0 md:space-x-4">
             <div className="relative">
@@ -104,44 +104,45 @@ export default function Users() {
               PROJECTS_LIST.filter((item) => item.status === "Open").length
             }`}</StatusUserItem>
             <NewUserItem />
-            {PROJECTS_LIST
-              .filter((item) => item.status === "Open")
-              .map((item) => (
+            {PROJECTS_LIST.filter((item) => item.status === "Open").map(
+              (item) => (
                 <UserItem key={item.id}>{item.name}</UserItem>
-              ))}
+              ),
+            )}
           </div>
           <div>
             <StatusUserItem className="text-yellow-400">{`In Progress ${
-              PROJECTS_LIST.filter((item) => item.status === "In Progress").length
+              PROJECTS_LIST.filter((item) => item.status === "In Progress")
+                .length
             }`}</StatusUserItem>
-            <NewUserItem/>
-            {PROJECTS_LIST
-              .filter((item) => item.status === "In Progress")
-              .map((item) => (
+            <NewUserItem />
+            {PROJECTS_LIST.filter((item) => item.status === "In Progress").map(
+              (item) => (
                 <UserItem key={item.id}>{item.name}</UserItem>
-              ))}
+              ),
+            )}
           </div>
           <div>
             <StatusUserItem className="text-green-400">{`Review ${
               PROJECTS_LIST.filter((item) => item.status === "Review").length
             }`}</StatusUserItem>
-            <NewUserItem/>
-            {PROJECTS_LIST
-              .filter((item) => item.status === "Review")
-              .map((item) => (
+            <NewUserItem />
+            {PROJECTS_LIST.filter((item) => item.status === "Review").map(
+              (item) => (
                 <UserItem key={item.id}>{item.name}</UserItem>
-              ))}
+              ),
+            )}
           </div>
           <div>
             <StatusUserItem className="text-blue-400">{`Closed ${
               PROJECTS_LIST.filter((item) => item.status === "Closed").length
             }`}</StatusUserItem>
-            <NewUserItem/>
-            {PROJECTS_LIST
-              .filter((item) => item.status === "Closed")
-              .map((item) => (
+            <NewUserItem />
+            {PROJECTS_LIST.filter((item) => item.status === "Closed").map(
+              (item) => (
                 <UserItem key={item.id}>{item.name}</UserItem>
-              ))}
+              ),
+            )}
           </div>
         </div>
       </div>
