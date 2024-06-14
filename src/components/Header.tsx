@@ -28,18 +28,18 @@ export default function Header() {
           </svg>
         </div>
       </div>
-      <div className="flex justify-between flex-1 px-8 py-4">
+      <div className="flex justify-between flex-1 px- py-4">
         <input
-          className="w-80 h-9 "
-          type="text"
+          className="pl-8 w-80 h-9 outline-none "
+          type="search"
           placeholder="Search"
           name="search"
         />
         <div className="flex justify-end md:mt-0 space-x-6 rtl:space-x-reverse">
-          <img src={imguk} alt="imguk"></img>
-          <img src={message} alt="message"></img>
-          <img src={notification} alt="notification"></img>
-          <img src={avatar} alt="avatar"></img>
+          <img className="size-8" src={imguk} alt="imguk"></img>
+          <img className="size-8" src={message} alt="message"></img>
+          <img className="size-8" src={notification} alt="notification"></img>
+          <img className="size-8" src={avatar} alt="avatar"></img>
           <h1>Austin Robertson</h1>
           <p>Marketing Administrator</p>
         </div>

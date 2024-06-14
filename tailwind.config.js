@@ -1,8 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+
 export default {
   content: ["./src/**/*.{html,tsx}"],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    plugin(function({ addVariant }) {
+      addVariant('children', '&>*')
+    })
+  ],
 };
