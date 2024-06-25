@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { login } from "../apis/auth";
+import { setToken } from "../helpers/token";
 
 type Inputs = {
   email: string;
@@ -38,13 +40,20 @@ export default function Login() {
     },
   });
 
-  const handleLogin: SubmitHandler<Inputs> = (data: Inputs) => {
-    console.log(data);
-    if (data.email === "admin@gmail.com" && data.password === "admin12345") {
-      localStorage.setItem("token", "124125125125125125");
+  const handleLogin: SubmitHandler<Inputs> = async (data: Inputs) => {
+    try {
+      const json = await login(data.email, data.password);
+
+      if (json.status !== 200) {
+        throw new Error(json.message);
+      }
+
+      setToken(json.token);
       navigate("/");
-    } else {
-      toast.error("Invalid email or password");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
     }
   };
 
