@@ -6,29 +6,22 @@ import StatusUserItem from "../components/StatusUserItem";
 import NewUserItem from "../components/NewUserItem";
 import UserItem from "../components/UserItem";
 import Setting from "../components/Setting";
-import { useEffect, useState } from "react";
-import { getProjects as getProjectsApi } from "../apis/projects";
+import { deleteProject } from "../apis/projects";
+import { toast } from "sonner";
+import { useGetProjects } from "../hooks/useGetProjects";
 
 export default function Users() {
-  const [projects, setProjects] = useState<
-    {
-      id: number;
-      name: string;
-      status: string;
-    }[]
-  >([]);
+  const { projects, setProjects } = useGetProjects();
 
-  useEffect(() => {
-    const getProjects = async () => {
-      try {
-        const data = await getProjectsApi();
-        setProjects(data.items);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getProjects();
-  }, []);
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteProject(id);
+      setProjects(projects.filter((item) => item.id !== id));
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete project");
+    }
+  };
 
   return (
     <div className="w-full overflow-x-auto">
@@ -77,7 +70,9 @@ export default function Users() {
             {projects
               .filter((item) => item.status === "Open")
               .map((item) => (
-                <UserItem key={item.id}>{item.name}</UserItem>
+                <UserItem onClick={() => handleDelete(item.id)} key={item.id}>
+                  {item.name}
+                </UserItem>
               ))}
           </div>
           <div>
@@ -88,7 +83,9 @@ export default function Users() {
             {projects
               .filter((item) => item.status === "In Progress")
               .map((item) => (
-                <UserItem key={item.id}>{item.name}</UserItem>
+                <UserItem onClick={() => handleDelete(item.id)} key={item.id}>
+                  {item.name}
+                </UserItem>
               ))}
           </div>
           <div>
@@ -99,7 +96,9 @@ export default function Users() {
             {projects
               .filter((item) => item.status === "Review")
               .map((item) => (
-                <UserItem key={item.id}>{item.name}</UserItem>
+                <UserItem onClick={() => handleDelete(item.id)} key={item.id}>
+                  {item.name}
+                </UserItem>
               ))}
           </div>
           <div>
@@ -110,7 +109,9 @@ export default function Users() {
             {projects
               .filter((item) => item.status === "Closed")
               .map((item) => (
-                <UserItem key={item.id}>{item.name}</UserItem>
+                <UserItem onClick={() => handleDelete(item.id)} key={item.id}>
+                  {item.name}
+                </UserItem>
               ))}
           </div>
         </div>

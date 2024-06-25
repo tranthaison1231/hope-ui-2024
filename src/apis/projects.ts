@@ -6,7 +6,7 @@ export const getProjects = async () => {
   return json;
 };
 
-export const deleteProject = async (id: string) => {
+export const deleteProject = async (id: number) => {
   const res = await fetch(`${configs.API_URL}/projects/${id}`, {
     method: "DELETE",
   });
